@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Table from './components/Table';
-import Form from './components/Form';
+import PurchaseOrderForm from './components/PurchaseOrderForm';
 
 export default class App extends Component {
     state = {
@@ -13,7 +13,7 @@ export default class App extends Component {
         return (
             <div className="container">
                 <Table characterData={characters} removeCharacter={this.removeCharacter} />
-                <Form handleSubmit={this.handleSubmit} />
+                <PurchaseOrderForm handleSubmit={this.handleSubmit} />
             </div>
         )
     }
