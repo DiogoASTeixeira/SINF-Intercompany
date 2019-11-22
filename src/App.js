@@ -10,6 +10,7 @@ import {
 import Helmet from "react-helmet";
 // import Table from './components/Table';
 import PurchaseOrderForm from './components/PurchaseOrderForm';
+import ReactVirtualizedTable from './components/CrossReferenceTable';
 
 
 export default class App extends Component {
@@ -53,7 +54,7 @@ export default class App extends Component {
                                 <Topics />
                             </Route>
                             <Route path="/">
-                                <div>Homepage</div>
+                                <ReactVirtualizedTable/>
                             </Route>
                         </Switch>
                     </div>
