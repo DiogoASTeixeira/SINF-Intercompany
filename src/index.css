@@ -835,7 +835,7 @@ caption {
   grid-column: 2/4;
 }
 .submit-order {
-  grid-column: 1/6;
+  grid-column: 5/6;
 }
 
 /**
