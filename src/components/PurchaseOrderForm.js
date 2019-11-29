@@ -32,7 +32,7 @@ export default class PurchaseOrderForm extends Component {
                     <meta charset="utf-8" />
                     <title>Purchase Order Form</title>
                 </Helmet>
-                <form>
+                <form className="order-form">
                     <LabelTextInput
                         label="Tipo de Documento"
                         name="docType"
@@ -75,6 +75,7 @@ export default class PurchaseOrderForm extends Component {
                         onChange={this.handleChange}
                     />
                     <LabelTextInput
+                        id="paymentCondition"
                         label="Condição de Pagamento"
                         name="paymentCondition"
                         value={paymentCondition}
@@ -95,7 +96,7 @@ export default class PurchaseOrderForm extends Component {
                         value={discount}
                         onChange={this.handleDiscountChange}
                     />
-                    <input type="button" value="Submit" onClick={this.submitForm} />
+                    <input className="submit-order" type="button" value="Submit" onClick={this.submitForm} />
                 </form>
             </div>
         );

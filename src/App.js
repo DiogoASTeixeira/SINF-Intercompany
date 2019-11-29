@@ -39,7 +39,7 @@ export default class App extends Component {
                                     <Link to="/">Home</Link>
                                 </li>
                                 <li>
-                                    <Link to="/purchaseOrder">purchaseOrder</Link>
+                                    <Link to="/purchaseOrder">Purchase Order</Link>
                                 </li>
                                 <li>
                                     <Link to="/users">Users</Link>
