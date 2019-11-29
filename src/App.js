@@ -9,7 +9,7 @@ import {
 } from "react-router-dom";
 import Helmet from "react-helmet";
 // import Table from './components/Table';
-import PurchaseOrderForm from './components/PurchaseOrderForm';
+import PurchaseOrder from './components/PurchaseOrder';
 import ReactVirtualizedTable from './components/CrossReferenceTable';
 
 
@@ -48,13 +48,13 @@ export default class App extends Component {
                         </nav>
                         <Switch>
                             <Route path="/purchaseOrder">
-                                <PurchaseOrderForm handleSubmit={this.handleSubmit} />
+                                <PurchaseOrder handleSubmit={this.handleSubmit} />
                             </Route>
                             <Route path="/users">
                                 <Topics />
                             </Route>
                             <Route path="/">
-                                <ReactVirtualizedTable/>
+                                <ReactVirtualizedTable />
                             </Route>
                         </Switch>
                     </div>

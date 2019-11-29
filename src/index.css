@@ -838,6 +838,21 @@ caption {
   grid-column: 5/6;
 }
 
+.table-total {
+  display: grid;
+  grid-template-columns: 4fr 1fr 1fr;
+  grid-gap: 10px;
+  text-align: right;
+}
+
+#label-total {
+  grid-column: 2/3;
+}
+
+#total-value::after {
+  content: ' €';
+}
+
 /**
  * Layout
  */
