@@ -44,7 +44,7 @@ export default function PurchaseOrderTable() {
     return (
         <Paper className={classes.root}>
             <Table className={classes.table} aria-label="simple table">
-                <TableHead>
+                <TableHead id="product-table">
                     <TableRow>
                         <TableCell>Artigo</TableCell>
                         <TableCell align="right">Descrição</TableCell>
