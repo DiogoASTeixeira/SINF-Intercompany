@@ -11,6 +11,7 @@ import Helmet from "react-helmet";
 // import Table from './components/Table';
 import PurchaseOrder from './components/PurchaseOrder';
 import ReactVirtualizedTable from './components/CrossReferenceTable';
+import SalesOrder from './components/SalesOrder';
 
 
 export default class App extends Component {
@@ -42,6 +43,9 @@ export default class App extends Component {
                                     <Link to="/purchaseOrder">Purchase Order</Link>
                                 </li>
                                 <li>
+                                    <Link to="/salesOrder">Sales Order</Link>
+                                </li>
+                                <li>
                                     <Link to="/users">Users</Link>
                                 </li>
                             </ul>
@@ -49,6 +53,9 @@ export default class App extends Component {
                         <Switch>
                             <Route path="/purchaseOrder">
                                 <PurchaseOrder handleSubmit={this.handleSubmit} />
+                            </Route>
+                            <Route path="/salesOrder">
+                                <SalesOrder handleSubmit={this.handleSubmit} />
                             </Route>
                             <Route path="/users">
                                 <Topics />

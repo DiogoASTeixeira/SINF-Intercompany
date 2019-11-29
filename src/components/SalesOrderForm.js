@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import LabelTextInput from './LabelTextInput';
 import LabelNumberInput from './LabelNumberInput';
 
-export default class PurchaseOrderForm extends Component {
+export default class SalesOrderForm extends Component {
     constructor(props) {
         super(props);
 
@@ -12,10 +12,11 @@ export default class PurchaseOrderForm extends Component {
             number: '',
             date: this.getCurrentDate(),
             reference: '',
-            supplier: '',
+            client: '',
             paymentCondition: '',
-            supplyCondition: '',
-            discount: '0.00'
+            discount: '0.00',
+            dueDate: this.getCurrentDate(),
+            paymentMethod: ''
         }
 
         this.state = this.initialState;
@@ -23,7 +24,7 @@ export default class PurchaseOrderForm extends Component {
 
 
     render() {
-        const { docType, serial, number, date, reference, supplier, paymentCondition, supplyCondition, discount } = this.state;
+        const { docType, serial, number, date, reference, client, paymentCondition, discount, dueDate, paymentMethod } = this.state;
 
         return (
             <form className="order-form">
@@ -63,22 +64,16 @@ export default class PurchaseOrderForm extends Component {
                 />
 
                 <LabelTextInput
-                    label="Fornecedor"
-                    name="supplier"
-                    value={supplier}
+                    label="Cliente"
+                    name="client"
+                    value={client}
                     onChange={this.handleChange}
                 />
                 <LabelTextInput
+                    id="paymentCondition"
                     label="Condição de Pagamento"
                     name="paymentCondition"
                     value={paymentCondition}
-                    onChange={this.handleChange}
-                />
-                <LabelTextInput
-                    id="supplyCondition"
-                    label="Condição de Envio"
-                    name="supplyCondition"
-                    value={supplyCondition}
                     onChange={this.handleChange}
                 />
                 <LabelNumberInput
@@ -89,6 +84,21 @@ export default class PurchaseOrderForm extends Component {
                     name="discount"
                     value={discount}
                     onChange={this.handleDiscountChange}
+                />
+                <LabelNumberInput
+                    label="Data de Vencimento"
+                    format="##/##/####"
+                    placeholder="DD/MM/YYYY"
+                    mask={['D', 'D', 'M', 'M', 'Y', 'Y', 'Y', 'Y']}
+                    name="dueDate"
+                    value={dueDate}
+                    onChange={this.handleChange}
+                />
+                <LabelTextInput
+                    label="Método de Pagamento"
+                    name="paymentMethod"
+                    value={paymentMethod}
+                    onChange={this.handleChange}
                 />
                 <input className="submit-order" type="button" value="Submit" onClick={this.submitForm} />
             </form>

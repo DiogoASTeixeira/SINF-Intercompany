@@ -831,6 +831,10 @@ dd {
  * Forms
  */
 
+form.order-form {
+  font-size: small;
+}
+
 [type=color], [type=date], [type=datetime], [type=datetime-local], [type=email], [type=month], [type=number], [type=password], [type=search], [type=tel], [type=text], [type=url], [type=week], [type=time], select, textarea {
   display: block;
   border: 1px solid #dedede;
@@ -934,8 +938,6 @@ thead#product-table>tr>th {
   border-width: thin;
 }
 
-
-
 tfoot th {
   border-top: 2px solid #dedede;
 }
@@ -975,12 +977,12 @@ caption {
 
 form.order-form {
   display: grid;
-  grid-template-columns: 3fr 2fr 1fr 3fr 3fr;
+  grid-template-columns: 3fr 3fr 1fr 2fr 3fr;
   grid-gap: 10px;
 }
 
-#paymentCondition {
-  grid-column: 2/4;
+#supplyCondition {
+  grid-column: 3/5;
 }
 
 .submit-order {

@@ -13,7 +13,7 @@ const useStyles = makeStyles({
         overflowX: 'auto',
     },
     table: {
-        minWidth: 500,
+        minWidth: 650,
     },
 });
 
@@ -38,7 +38,7 @@ const rows = [
     createData('Gingerbread', 356, 16.0, 49, 3.9, 1, 2, 3, 4, 5),
 ];
 
-export default function PurchaseOrderTable() {
+export default function SalesOrderTable() {
     const classes = useStyles();
 
     return (
@@ -55,7 +55,7 @@ export default function PurchaseOrderTable() {
                         <TableCell align="right">Desconto</TableCell>
                         <TableCell align="right">Data de Envio</TableCell>
                         <TableCell align="right">Tipo de IVA</TableCell>
-                        <TableCell align="right">Total</TableCell>
+                        <TableCell align="right">Retenção</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
