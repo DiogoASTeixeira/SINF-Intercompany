@@ -120,7 +120,7 @@ export default class App extends Component {
                                 <Topics />
                             </Route>
                             <Route path="/">
-                                <DataTable headings={headings} rows={rows} />
+                                <DataTable headings={headings} rows={rows} title="Product Sales"/>
                             </Route>
                         </Switch>
                     </div>
