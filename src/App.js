@@ -12,6 +12,7 @@ import Helmet from "react-helmet";
 import PurchaseOrder from './components/PurchaseOrder';
 import DataTable from './components/DataTable/DataTable';
 import SalesOrder from './components/SalesOrder';
+import ValidState from './components/ValidState';
 
 
 export default class App extends Component {
@@ -105,7 +106,7 @@ export default class App extends Component {
                                     <Link to="/salesOrder">Sales Order</Link>
                                 </li>
                                 <li>
-                                    <Link to="/users">Users</Link>
+                                    <Link to="/validState">Valid State</Link>
                                 </li>
                             </ul>
                         </nav>
@@ -116,11 +117,13 @@ export default class App extends Component {
                             <Route path="/salesOrder">
                                 <SalesOrder handleSubmit={this.handleSubmit} />
                             </Route>
-                            <Route path="/users">
-                                <Topics />
+                            <Route path="/validState">
+                                <ValidState/>
                             </Route>
                             <Route path="/">
+                                {/* This is a test */}
                                 <DataTable headings={headings} rows={rows} title="Product Sales"/>
+                                <Topics />
                             </Route>
                         </Switch>
                     </div>
