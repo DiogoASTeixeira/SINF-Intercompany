@@ -13,7 +13,8 @@ import PurchaseOrder from './components/PurchaseOrder';
 import DataTable from './components/DataTable/DataTable';
 import SalesOrder from './components/SalesOrder';
 import ValidState from './components/ValidState';
-
+import TopNav from './components/navbar/TopNav';
+import './App.css';
 
 export default class App extends Component {
     state = {
@@ -88,28 +89,15 @@ export default class App extends Component {
             //     <PurchaseOrderForm handleSubmit={this.handleSubmit} />
             // </div>
             <div className="application">
+            <TopNav />
+
+
                 <Helmet>
-                    <meta charset="utf-8" />
+                    <meta charset="utf-12" />
                     <title>SINF InterCompany</title>
                 </Helmet>
                 <Router>
                     <div>
-                        <nav>
-                            <ul>
-                                <li>
-                                    <Link to="/">Home</Link>
-                                </li>
-                                <li>
-                                    <Link to="/purchaseOrder">Purchase Order</Link>
-                                </li>
-                                <li>
-                                    <Link to="/salesOrder">Sales Order</Link>
-                                </li>
-                                <li>
-                                    <Link to="/validState">Valid State</Link>
-                                </li>
-                            </ul>
-                        </nav>
                         <Switch>
                             <Route path="/purchaseOrder">
                                 <PurchaseOrder handleSubmit={this.handleSubmit} />
@@ -131,6 +119,7 @@ export default class App extends Component {
             </div>
         )
     }
+
 
     removeCharacter = index => {
         const { characters } = this.state
