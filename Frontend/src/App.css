@@ -1,6 +1,11 @@
 .navlink {
-  color: blue !important;
+  color: #4287f5 !important;
 }
+
+.navlink:hover {
+  color: black !important;
+}
+
 
 .nav-item {
   list-style: none;

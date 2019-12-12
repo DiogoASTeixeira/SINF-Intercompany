@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Nav, Navbar, NavbarBrand, Collapse, NavbarToggler } from 'reactstrap';
+import { Nav, Navbar, NavbarBrand, Collapse } from 'reactstrap';
 import TopNavLinks from './TopNavLinks';
 import '../../App.css';
 
