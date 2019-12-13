@@ -9,7 +9,6 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
-import Popup from "reactjs-popup";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -23,7 +22,7 @@ const useStyles = makeStyles(theme => ({
         marginBottom: theme.spacing(2)
     },
     table: {
-        minWidth: 650,
+        minWidth: 500,
     },
 }));
 
