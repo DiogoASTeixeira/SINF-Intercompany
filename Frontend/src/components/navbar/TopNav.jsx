@@ -4,7 +4,7 @@ import TopNavLinks from './TopNavLinks';
 import '../../App.css';
 
 const TopNav = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen] = useState(false);
   return (
     <Navbar
       id = "navbar"
