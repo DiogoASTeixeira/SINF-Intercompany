@@ -31,7 +31,7 @@ export default class PopupWindow extends Component {
 
     render() {
         let { content } = this.props;
-
+        console.log(content);
         return (
             <div>
                 <Dialog
@@ -43,9 +43,14 @@ export default class PopupWindow extends Component {
                     aria-describedby="alert-dialog-slide-description"
                 >
                     <DialogTitle id="alert-dialog-slide-title">
-                        {"Use Google's location service?"}
+                        {content.name}
                     </DialogTitle>
                     <DialogContent>
+                        <DialogContentText>Price:</DialogContentText>
+                        <DialogContentText id="alert-dialog-slide-description" className="col">
+                            {content.price}€
+                        </DialogContentText>
+                        <DialogContentText>Description:</DialogContentText>
                         <DialogContentText id="alert-dialog-slide-description">
                             {content.description}
                         </DialogContentText>

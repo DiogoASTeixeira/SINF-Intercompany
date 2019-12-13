@@ -11,7 +11,7 @@ export default class PurchaseOrder extends Component {
         super();
 
         this.state = {
-            headings: ['Name', 'Price', 'Actions'],
+            headings: ['Name', 'Price (€)', 'Actions'],
             products: [],
             showDialog: false,
             dialogContent: []
