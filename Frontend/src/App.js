@@ -11,9 +11,11 @@ import Helmet from "react-helmet";
 // import Table from './components/Table';
 import PurchaseOrder from './components/PurchaseOrder';
 import DataTable from './components/DataTable/DataTable';
+import Table from './components/DataTable/NewTable';
 import SalesOrder from './components/SalesOrder';
 import ValidState from './components/ValidState';
-
+import TopNav from './components/navbar/TopNav';
+import './App.css';
 
 export default class App extends Component {
     state = {
@@ -24,61 +26,31 @@ export default class App extends Component {
         // const { characters } = this.state;
         ///TODO
         const headings = [
+            'Product ID',
             'Product name',
-            'SKU',
-            'Stock quantity',
             'Wholesale cost',
-            'Sale price',
-            'Quantity sold',
-            'Gross sales',
-            'Net sales',
-            'Notes',
         ];
 
         const rows = [
             [
-                'Red and black plaid scarf with thin red stripes and thick black stripes',
                 124689325,
-                28,
+                'Red and black plaid scarf',
                 '$35.00',
-                '$60.00',
-                12,
-                '$720.00',
-                '$300.00',
-                '',
             ],
             [
-                'Yellow plaid scarf',
                 124689389,
-                0,
-                '$35.00',
+                'Yellow plaid scarf',
                 '$60.00',
-                20,
-                '$1200.00',
-                '$500.00',
-                'Currently on back order by the supplier. Do not place another order to restock.',
             ],
             [
-                'Blue plaid scarf',
                 124689332,
-                30,
+                'Blue plaid scarf',
                 '$35.00',
-                '$60.00',
-                10,
-                '$600.00',
-                '$250.00',
-                '',
             ],
             [
-                'Pink plaid scarf',
                 124689376,
-                16,
+                'Pink plaid scarf',
                 '$35.00',
-                '$60.00',
-                4,
-                '$240.00',
-                '$100.00',
-                '',
             ],
         ];
         //TODO
@@ -88,28 +60,15 @@ export default class App extends Component {
             //     <PurchaseOrderForm handleSubmit={this.handleSubmit} />
             // </div>
             <div className="application">
+            <TopNav />
+
+
                 <Helmet>
-                    <meta charset="utf-8" />
+                    <meta charset="utf-12" />
                     <title>SINF InterCompany</title>
                 </Helmet>
                 <Router>
                     <div>
-                        <nav>
-                            <ul>
-                                <li>
-                                    <Link to="/">Home</Link>
-                                </li>
-                                <li>
-                                    <Link to="/purchaseOrder">Purchase Order</Link>
-                                </li>
-                                <li>
-                                    <Link to="/salesOrder">Sales Order</Link>
-                                </li>
-                                <li>
-                                    <Link to="/validState">Valid State</Link>
-                                </li>
-                            </ul>
-                        </nav>
                         <Switch>
                             <Route path="/purchaseOrder">
                                 <PurchaseOrder handleSubmit={this.handleSubmit} />
@@ -122,8 +81,9 @@ export default class App extends Component {
                             </Route>
                             <Route path="/">
                                 {/* This is a test */}
-                                <DataTable headings={headings} rows={rows} title="Product Sales"/>
-                                <Topics />
+                              {/* <DataTable headings={headings} rows={rows}/> */}
+                              {  /*<Topics />*/}
+                              <Table/>
                             </Route>
                         </Switch>
                     </div>
@@ -131,6 +91,7 @@ export default class App extends Component {
             </div>
         )
     }
+
 
     removeCharacter = index => {
         const { characters } = this.state
