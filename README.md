@@ -2,7 +2,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Available Scripts
 
-In the project directory, you can run:
+In the Backend/testjasmin directory, you can run:
+ ### `python manage.py runserver`
+
+In the Frontend directory, you can run:
 
 ### `npm start`
 
