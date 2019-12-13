@@ -17,19 +17,19 @@ JASMIN_URL = "my.jasminsoftware.com/api"
 
 SUPP_NAME = "SINF2"
 SUPP_CLI_ID = "SINF2SUPPLIER"
-SUPP_SECRET = "2cd3bd11-0686-466f-bd45-c61d20205875"
+SUPP_SECRET = "0c78ac45-98bd-4036-9cf1-4af89b3dc833"
 SUPP_TOKEN = ""
 SUPP_TENANT = "227418"
 SUPP_ORG = "227418-0001"
-SUPP_PARTY = "0004"
+SUPP_PARTY = "0001"
 
 CUST_NAME = "W-SINF"
-CUST_CLI_ID = "SINF2Companies"
-CUST_SECRET = "bece356b-f951-4c41-b843-694992031e9c"
+CUST_CLI_ID = "SINF2COMPANIES"
+CUST_SECRET = "6e95f18f-4ae8-485e-a3e0-ae301a86ea43"
 CUST_TOKEN = ""
 CUST_TENANT = "224989"
 CUST_ORG = "224989-0001"
-CUST_PARTY = "0006"
+CUST_PARTY = "0003"
 
 class Teste(APIView):
     def get(self, request):
@@ -49,8 +49,6 @@ class Request(APIView):
             orders = OrderRequest.objects.values()
         else:
             orders = OrderRequest.objects.values().filter(status=status)
-
-
 
         dict = []
 
@@ -257,6 +255,8 @@ class ProductDetails(APIView):
 
         data = response.json()
 
+        print(data)
+
         dict = {
             'name': data['itemKey'],
             'price': data['priceListLines'][0]['priceAmount']['amount'],
@@ -281,6 +281,7 @@ class Auth(APIView):
             }, )
 
         content = json.loads(response.text)
+        print(content)
         global CUST_TOKEN
         CUST_TOKEN = content['token_type'] + " " + content["access_token"]
 
