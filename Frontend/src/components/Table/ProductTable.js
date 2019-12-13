@@ -9,6 +9,7 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Popup from "reactjs-popup";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -41,7 +42,6 @@ export default function ProductTable(props) {
                             <TableCell>{headings[0]}</TableCell>
                             <TableCell align="right">{headings[1]}</TableCell>
                             <TableCell align="right">{headings[2]}</TableCell>
-                            <TableCell align="right">{headings[3]}</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -51,10 +51,9 @@ export default function ProductTable(props) {
                                     {row.name}
                                 </TableCell>
                                 <TableCell align="right">{row.price}</TableCell>
-                                <TableCell align="right">{row.id}</TableCell>
                                 <TableCell align="right">
                                     <Grid item>
-                                        <ButtonGroup size="small" aria-label="small outlined button group">
+                                        <ButtonGroup>
                                             <Button onClick={handleDetails.bind(this, row.id)}>Details</Button>
                                             <Button onClick={handleOrder.bind(this, row.id)}>Order</Button>
                                         </ButtonGroup>
