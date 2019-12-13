@@ -27,18 +27,18 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function ProductTable(props) {
+export default function OrderRequest(props) {
     const classes = useStyles();
 
-    const { headings, rows, handleDetails, handleOrder } = props;
+    const { headings, rows, handleCancel     } = props;
 
 
     return (
         <div className={classes.root}>
-            
+
             <Paper className={classes.paper}>
-                
-            <Container><h3>Product Table</h3></Container>
+
+                <Container><h3>Order Request</h3></Container>
                 <Table className={classes.table} size="small" aria-label="a dense table">
                     <TableHead>
                         <TableRow>
@@ -57,8 +57,7 @@ export default function ProductTable(props) {
                                 <TableCell align="right">
                                     <Grid item>
                                         <ButtonGroup>
-                                            <Button onClick={handleDetails.bind(this, row.id)}>Details</Button>
-                                            <Button onClick={handleOrder.bind(this, row.id)}>Order</Button>
+                                            <Button onClick={handleCancel.bind(this, row.id)}>Cancel</Button>
                                         </ButtonGroup>
                                     </Grid>
                                 </TableCell>
