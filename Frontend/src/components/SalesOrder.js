@@ -11,6 +11,7 @@ export default class SalesOrder extends Component {
                     <meta charset="utf-8" />
                     <title>Sales Order</title>
                 </Helmet>
+
                 <SalesOrderForm handleSubmit={this.props.handleSubmit} />
                 <SalesOrderTable />
             </Fragment>
