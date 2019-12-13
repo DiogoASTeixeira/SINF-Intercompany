@@ -18,6 +18,8 @@ class OrderRequest(models.Model):
     product_id = models.TextField()
     status = models.TextField()
     time = models.IntegerField()
+    cust_invoice = models.TextField()
+    sup_invoice = models.TextField()
 
     def __str__(self):
         return serializers.serialize('json', [self])

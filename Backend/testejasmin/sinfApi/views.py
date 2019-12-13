@@ -1,16 +1,20 @@
+import calendar
 import json
 import time
 from datetime import date, datetime
 
 import requests
+from django.contrib.auth.models import Group
 from django.http import HttpResponse
 from rest_framework.response import Response
 from rest_framework.utils import json
 from rest_framework.views import APIView
-from .models import OrderRequest, MasterProductIdData
+from .models import OrderRequest
 from .enums import OrderRequestState
 from .models import MasterProductIdData
-
+from rest_framework.permissions import IsAuthenticated, BasePermission
+from collections import Counter
+from datetime import datetime
 # Create your views here.
 
 JASMIN_URL = "my.jasminsoftware.com/api"
@@ -31,11 +35,22 @@ CUST_TENANT = "224989"
 CUST_ORG = "224989-0001"
 CUST_PARTY = "0003"
 
-class Teste(APIView):
-    def get(self, request):
-        return Response("ola")
+class IsCustomer(BasePermission):
+
+    def has_permission(self, request, view):
+        if(request.user.groups.first().name == "customer"):
+            return True
+        return False
+
+class IsSupplier(BasePermission):
+    def has_permission(self, request, view):
+        if (request.user.groups.first().name == "supplier"):
+            return True
+        return False
 
 class Request(APIView):
+    # permission_classes = (IsAuthenticated,)
+
     def post(self, request, id_prod):
         time_int = int(round(time.time()))
         print(time)
@@ -45,6 +60,8 @@ class Request(APIView):
 
     def get(self, request):
         status = request.GET.get('status')
+        group = Group(id=1)
+        print(request.user.groups.first())
         if status is None:
             orders = OrderRequest.objects.values()
         else:
@@ -55,9 +72,13 @@ class Request(APIView):
         for order in orders:
             dict.append(ProductDetails.get(self, request, order['product_id']).data)
 
+        i = 0
+
         for item in dict:
-            item['status'] = order['status']
-            item['id'] = order['id']
+            item['time'] = orders[i]['time']
+            item['status'] = orders[i]['status']
+            item['id'] = orders[i]['id']
+            i = i + 1
 
         return Response(dict)
 
@@ -66,9 +87,11 @@ class Request(APIView):
         return HttpResponse(status=200)
 
 class RejectRequest(APIView):
+    # permission_classes = (IsAuthenticated,)
+
     def patch(self, request, id_req):
         req = OrderRequest.objects.get(id=id_req)
-        if (req.status != OrderRequestState.PENDING):
+        if (req.status != OrderRequestState.PENDING.value):
             return HttpResponse("Request not pending with ID: " + id_req, status=400)
 
         req.status = OrderRequestState.REJECTED.value
@@ -77,16 +100,17 @@ class RejectRequest(APIView):
         return HttpResponse("Rejected order request with ID: " + id_req, status=200)
 
 class AcceptRequest(APIView):
+    # permission_classes = (IsAuthenticated,)
+
     def patch(self, request, id_req):
 
         req = OrderRequest.objects.get(id=id_req)
-        if(req.status != OrderRequestState.PENDING):
+        if(req.status != OrderRequestState.PENDING.value):
             return HttpResponse("Request not pending with ID: " + id_req, status=400)
 
         req.status = OrderRequestState.ACCEPTED.value
         req.save()
 
-        Auth.get(self, request)  # TODO: Remove
         prod = ProductDetails.get(self,request, req.product_id).data
 
         response = requests.post( "https://" + JASMIN_URL + "/" + CUST_TENANT + "/" + CUST_ORG + "/purchasesCore/purchasesItems",
@@ -203,9 +227,17 @@ class AcceptRequest(APIView):
                           }
             }, )
 
+        invoiceCustId = response1.text.replace('"', '')
+        invoiceSupId = response2.text.replace('"', '')
+        req.cust_invoice = invoiceCustId
+        req.sup_invoice = invoiceSupId
+        req.save()
+
         return HttpResponse("Accepted order request with ID: " + id_req, status=200)
 
 class ProductList(APIView):
+     # permission_classes = (IsAuthenticated,)
+
     def get(self, request):
         response = requests.get(
             "https://" + JASMIN_URL + "/" + SUPP_TENANT + "/" + SUPP_ORG + "/salesCore/salesItems",
@@ -230,6 +262,8 @@ class ProductList(APIView):
         return Response(dict)
 
 class PurchaseItem(APIView):
+     # permission_classes = (IsAuthenticated,)
+
     def getId(id_pit):
         response = requests.get(
             "https://" + JASMIN_URL + "/" + CUST_TENANT + "/" + CUST_ORG + "/purchasesCore/purchasesItems/"+id_pit,
@@ -245,6 +279,8 @@ class PurchaseItem(APIView):
         return dict
 
 class ProductDetails(APIView):
+     # permission_classes = (IsAuthenticated,)
+
     def get(self, request, id_prod):
         response = requests.get(
             "https://" + JASMIN_URL + "/" + SUPP_TENANT + "/" + SUPP_ORG + "/salesCore/salesItems/" + id_prod,
@@ -254,8 +290,6 @@ class ProductDetails(APIView):
             })
 
         data = response.json()
-
-        print(data)
 
         dict = {
             'name': data['itemKey'],
@@ -268,7 +302,46 @@ class ProductDetails(APIView):
 
         return Response(dict)
 
+
+class InvoiceDetails(APIView):
+     # permission_classes = (IsAuthenticated,)
+
+    def get(self, request, id_req):
+        global invoice_id
+        req = OrderRequest.objects.get(id=id_req)
+        invoice_id = req.sup_invoice
+
+        response = requests.get(
+            "https://" + JASMIN_URL + "/" + SUPP_TENANT + "/" + SUPP_ORG + "/billing/invoices/" + invoice_id,
+            headers={
+                'Authorization': SUPP_TOKEN,
+                'Content-Type': 'application/json'
+            })
+        data = json.loads(response.text)
+
+        response = data
+
+        return HttpResponse(json.dumps(response), content_type="application/json")
+
+class UserGroup(APIView):
+     # permission_classes = (IsAuthenticated,)
+    def get(self, request):
+        response = {}
+        response['group'] = request.user.groups.first().name
+        return HttpResponse(json.dumps(response), content_type="application/json")
+
+    def post(self,request):
+        groupname = request.data['group']
+        oldgroup = Group.objects.get(name=request.user.groups.first().name)
+        newgroup = Group.objects.get(name=groupname)
+        oldgroup.user_set.remove(request.user)
+        newgroup.user_set.add(request.user)
+        return HttpResponse("Changed user group to "+groupname, status=200)
+
+
 class Auth(APIView):
+     # permission_classes = (IsAuthenticated,)
+
     def get(self, request):
         response = requests.post("https://identity.primaverabss.com/connect/token",
                                  headers={
@@ -281,7 +354,6 @@ class Auth(APIView):
             }, )
 
         content = json.loads(response.text)
-        print(content)
         global CUST_TOKEN
         CUST_TOKEN = content['token_type'] + " " + content["access_token"]
 
@@ -302,3 +374,94 @@ class Auth(APIView):
         SUPP_TOKEN = content['token_type'] + " " + content["access_token"]
 
         return HttpResponse(response, content_type="application/json")
+
+
+class TotalIncome(APIView):
+    def get(self, request):
+        orderRequestList = Request.get(self,request)
+        totalIncome = 0
+        curentYear = date.today().year
+
+        for request in orderRequestList.data:
+            requestDate = datetime.fromtimestamp(request['time'])
+            if (request['status'] == OrderRequestState.ACCEPTED.value) and (requestDate.year == curentYear):
+                totalIncome += request['price']
+
+        response = {}
+        response['totalIncome'] = totalIncome
+        return HttpResponse(json.dumps(response), content_type="application/json")
+
+
+class TotalIncomeMonth(APIView):
+    def get(self, request):
+        orderRequestList = Request.get(self,request)
+        totalIncome = 0
+        curentYear = date.today().year
+        currentMonth = date.today().month
+
+        for request in orderRequestList.data:
+            requestDate = datetime.fromtimestamp(request['time'])
+            if (request['status'] == OrderRequestState.ACCEPTED.value) and (requestDate.year == curentYear) and (requestDate.month == currentMonth):
+                totalIncome += request['price']
+
+        response = {}
+        response['totalIncomeMonth'] = totalIncome
+        return HttpResponse(json.dumps(response), content_type="application/json")
+
+class BestSelling(APIView):
+    def get(self, request):
+        orderRequestList = Request.get(self,request)
+        productList = []
+
+        for request in orderRequestList.data:
+            productList.append(request['name'])
+
+        counter = Counter(productList)
+
+        response = {}
+        response['bestSellingProduct'] = [k for k, v in counter.items() if v == max(counter.values())][0]
+        return HttpResponse(json.dumps(response), content_type="application/json")
+
+class ProductAmountProfit(APIView):
+    def get(self, request):
+        orderRequestList = Request.get(self,request)
+        productList = []
+
+        for request in orderRequestList.data:
+            productList.append(request['name'])
+
+        counter = Counter(productList)
+        products = counter.keys()
+
+        response = {}
+
+        for productName in products:
+            response[productName] = {}
+            response[productName]['units'] = 0
+            response[productName]['profit'] = 0
+            for request in orderRequestList.data:
+                if(request['name'] == productName):
+                    response[productName]['units'] += 1
+                    response[productName]['profit'] += request['price']
+
+        return HttpResponse(json.dumps(response), content_type="application/json")
+
+class MonthAmountProfit(APIView):
+    def get(self, request):
+        orderRequestList = Request.get(self,request)
+        curentYear = date.today().year
+        response = {}
+
+        for i in range(1, 13):
+            month = calendar.month_name[i]
+            response[month] = {}
+            response[month]['units'] = 0
+            response[month]['profit'] = 0
+
+            for request in orderRequestList.data:
+                requestDate = datetime.fromtimestamp(request['time'])
+                if(requestDate.year == curentYear) and (requestDate.month == i):
+                    response[month]['units'] += 1
+                    response[month]['profit'] += request['price']
+
+        return HttpResponse(json.dumps(response), content_type="application/json")
