@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -27,18 +27,21 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function ProductTable(props) {
+export default function PendingRequests(props) {
     const classes = useStyles();
 
-    const { headings, rows, handleDetails, handleOrder } = props;
+    const { headings, rows, handleAccept, handleReject } = props;
 
+    for (let i = 0; i < rows.length; i++) {
+        rows[i].time = timeConverter(rows[i].time);
+    }
 
     return (
         <div className={classes.root}>
-            
+
             <Paper className={classes.paper}>
-                
-            <Container><h3>Product Table</h3></Container>
+
+                <Container><h3>Pending Requests Table</h3></Container>
                 <Table className={classes.table} size="small" aria-label="a dense table">
                     <TableHead>
                         <TableRow>
@@ -53,14 +56,15 @@ export default function ProductTable(props) {
                                 <TableCell component="th" scope="row">
                                     {row.name}
                                 </TableCell>
-                                <TableCell align="right">{row.price}</TableCell>
+                                <TableCell align="right">{row.time}</TableCell>
                                 <TableCell align="right">
                                     <Grid item>
                                         <ButtonGroup>
-                                            <Button onClick={handleDetails.bind(this, row.id)}>Details</Button>
-                                            <Button onClick={handleOrder.bind(this, row.id)}>Order</Button>
+                                            <Button onClick={handleAccept.bind(this, row.id)}>Accept</Button>
+                                            <Button onClick={handleReject.bind(this, row.id)}>Reject</Button>
                                         </ButtonGroup>
                                     </Grid>
+                                    <Fragment />
                                 </TableCell>
                             </TableRow>
                         ))}
@@ -69,4 +73,16 @@ export default function ProductTable(props) {
             </Paper>
         </div>
     );
+}
+
+function timeConverter(UNIX_timestamp) {
+    var a = new Date(UNIX_timestamp * 1000);
+    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var year = a.getFullYear();
+    var month = months[a.getMonth()];
+    var date = a.getDate();
+    var hour = a.getHours();
+    var min = a.getMinutes();
+    var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min;
+    return time;
 }

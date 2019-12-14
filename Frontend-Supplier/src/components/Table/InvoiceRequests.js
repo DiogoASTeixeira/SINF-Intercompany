@@ -27,10 +27,10 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function OrderRequest(props) {
+export default function InvoiceRequests(props) {
     const classes = useStyles();
 
-    const { headings, rows, handleCancel     } = props;
+    const { headings, rows, handleInvoice } = props;
 
 
     return (
@@ -53,11 +53,11 @@ export default function OrderRequest(props) {
                                 <TableCell component="th" scope="row">
                                     {row.name}
                                 </TableCell>
-                                <TableCell align="right">{row.price}</TableCell>
+                                <TableCell align="right">{row.status}</TableCell>
                                 <TableCell align="right">
                                     <Grid item>
                                         <ButtonGroup>
-                                            <Button onClick={handleCancel.bind(this, row.id)}>Cancel</Button>
+                                            <Button onClick={handleInvoice.bind(this, row.id)}>Invoice</Button>
                                         </ButtonGroup>
                                     </Grid>
                                 </TableCell>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 export default function OrderRequest(props) {
     const classes = useStyles();
 
-    const { headings, rows, handleCancel     } = props;
+    const { headings, rows, handleCancel } = props;
 
 
     return (
@@ -50,16 +50,19 @@ export default function OrderRequest(props) {
                     <TableBody>
                         {rows.map(row => (
                             <TableRow key={row.id}>
+                                {console.log(row)}
                                 <TableCell component="th" scope="row">
                                     {row.name}
                                 </TableCell>
-                                <TableCell align="right">{row.price}</TableCell>
+                                <TableCell align="right">{row.status}</TableCell>
                                 <TableCell align="right">
-                                    <Grid item>
-                                        <ButtonGroup>
-                                            <Button onClick={handleCancel.bind(this, row.id)}>Cancel</Button>
-                                        </ButtonGroup>
-                                    </Grid>
+                                    {row.status === 'pending' ?
+                                        <Grid item>
+                                            <ButtonGroup>
+                                                <Button onClick={handleCancel.bind(this, row.id)}>Cancel</Button>
+                                            </ButtonGroup>
+                                        </Grid>
+                                        :<Fragment/>}
                                 </TableCell>
                             </TableRow>
                         ))}

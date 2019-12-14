@@ -1,30 +1,31 @@
 import React, { Component, Fragment } from 'react';
 import Helmet from "react-helmet";
-import ProductTable from './Table/ProductTable';
-import axios from 'axios';
+import PendingRequests from './Table/PendingRequests';
 import PopupWindow from './Popup/PopupWindow';
-import OrderRequest from './Table/OrderRequest';
+import InvoiceRequests from './Table/InvoiceRequests';
+import axios from 'axios';
 
 export default class PurchaseOrder extends Component {
     constructor() {
         super();
 
         this.state = {
-            productHeadings: ['Name', 'Price (€)', 'Actions'],
-            products: [],
-            orderHeadings: ['Product', 'Status', 'Action'],
-            orders: [],
+            pendingHeadings: ['Name', 'Date', 'Actions'],
+            pendings: [],
+            acceptedHeadings: ['Product', 'Status', 'Action'],
+            accepted: [],
             showDialog: false,
             dialogContent: []
         };
 
         this.handleDialogClose = this.handleDialogClose.bind(this);
-        this.handleDetails = this.handleDetails.bind(this);
-        this.handleOrderCancel = this.handleOrderCancel.bind(this);
+        this.handleAccept = this.handleAccept.bind(this);
+        this.handleInvoice = this.handleInvoice.bind(this);
+        this.foo = this.foo.bind(this);
 
     }
     render() {
-        const { productHeadings, products, orderHeadings, orders } = this.state;
+        const { pendingHeadings, pendings, acceptedHeadings, accepted } = this.state;
 
         return (
             <Fragment>
@@ -33,17 +34,17 @@ export default class PurchaseOrder extends Component {
                     <title>Purchase Order</title>
                 </Helmet>
 
-                <ProductTable
-                    headings={productHeadings}
-                    rows={products}
-                    handleDetails={this.handleDetails}
-                    handleOrder={this.handleOrder}
+                <PendingRequests
+                    headings={pendingHeadings}
+                    rows={pendings}
+                    handleAccept={this.handleAccept}
+                    handleReject={this.handleReject}
                 />
 
-                <OrderRequest
-                    headings={orderHeadings}
-                    rows={orders}
-                    handleCancel={this.handleOrderCancel}
+                <InvoiceRequests
+                    headings={acceptedHeadings}
+                    rows={accepted}
+                    handleInvoice={this.handleInvoice}
                 />
 
                 {this.state.showDialog && (
@@ -57,44 +58,49 @@ export default class PurchaseOrder extends Component {
         )
     };
 
-
+    async foo(id) {
+        console.log(id);
+        axios.get(`http://localhost:8000/sinfApi/supplier/invoice` + id)
+            .then(res => {
+                console.log(res.data);
+            })
+    }
 
     async componentDidMount() {
         axios.get(`http://localhost:8000/sinfApi/login`)
-            .then(
-                axios.get(`http://localhost:8000/sinfApi/supplier/products`)
-                    .then(res => {
-                        const products = res.data;
-                        this.setState({ products: products });
-                    }),
+            .then(res =>
                 axios.get(`http://localhost:8000/sinfApi/client/order-requests`)
                     .then(res => {
-                        const orders = res.data;
-                        this.setState({ orders: orders });
+                        this.setState(
+                            {
+                                pendings: res.data.filter(p => p.status === 'pending'),
+                                accepted: res.data.filter(p => p.status === 'accepted')
+                            }
+                        );
                     })
             );
     }
 
-    async handleOrder(id, e) {
-        axios.post(`http://localhost:8000/sinfApi/supplier/products/` + id + '/order-request')
+    async handleReject(id) {
+        axios.patch(`http://localhost:8000/sinfApi/client/order-requests/` + id + '/reject')
             .then(res => {
-                console.log(res);
-            });
-        window.location = "http://localhost:3000/PurchaseOrder"
-    }
-
-    async handleDetails(id) {
-
-        axios.get(`http://localhost:8000/sinfApi/supplier/products/` + id)
-            .then(res => {
-                this.setState({ showDialog: true, dialogContent: res.data });
+                console.log(res.data);
             });
     }
 
-    async handleOrderCancel(id) {
-        axios.delete("http://localhost:8000/sinfApi/client/" + id + "/order-request").then()
+    async handleAccept(id) {
 
-        window.location = "http://localhost:3000/PurchaseOrder"
+        axios.patch(`http://localhost:8000/sinfApi/client/order-requests/` + id + `/accept`)
+            .then(res => {
+                console.log(res.data);
+            });
+    }
+
+    async handleInvoice(id) {
+        axios.get(`http://localhost:8000/sinfApi/supplier/invoice/` + id)
+            .then(res =>
+                console.log(res.data)
+                )
     }
 
     handleDialogClose() {
