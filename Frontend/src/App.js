@@ -5,9 +5,7 @@ import {
     Route
 } from "react-router-dom";
 import Helmet from "react-helmet";
-// import Table from './components/Table';
 import PurchaseOrder from './components/PurchaseOrder';
-// import DataTable from './components/DataTable/DataTable';
 import Table from './components/DataTable/NewTable';
 import SalesOrder from './components/SalesOrder';
 import ValidState from './components/ValidState';
@@ -19,42 +17,11 @@ export default class App extends Component {
         characters: []
     }
     render() {
-
-        // const { characters } = this.state;
-        ///TODO
-        // const headings = [
-        //     'Product ID',
-        //     'Product name',
-        //     'Wholesale cost',
-        // ];
-
-        // const rows = [
-        //     [
-        //         124689325,
-        //         'Red and black plaid scarf',
-        //         '$35.00',
-        //     ],
-        //     [
-        //         124689389,
-        //         'Yellow plaid scarf',
-        //         '$60.00',
-        //     ],
-        //     [
-        //         124689332,
-        //         'Blue plaid scarf',
-        //         '$35.00',
-        //     ],
-        //     [
-        //         124689376,
-        //         'Pink plaid scarf',
-        //         '$35.00',
-        //     ],
-        // ];
         return (
             <div className="application">
                 <Helmet>
                     <meta charset="utf-12" />
-                    <title>SINF InterCompany</title>
+                    <title>Client Intercompany</title>
                 </Helmet>
                 <Router>
                     <div>

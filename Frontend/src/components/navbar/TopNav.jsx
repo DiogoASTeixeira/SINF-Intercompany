@@ -17,7 +17,7 @@ const TopNav = () => {
       <NavbarBrand className="mr-2" href="/">
       </NavbarBrand>
       <a id="logoLink" className="mr-2" href="/">
-        InterCompany
+        Client
       </a>
       <Collapse isOpen={isOpen} navbar>
         <Nav
