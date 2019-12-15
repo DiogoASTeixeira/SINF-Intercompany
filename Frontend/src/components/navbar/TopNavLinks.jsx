@@ -11,7 +11,7 @@ const TopNavLinks = () => {
         </NavLink>
       </NavItem>
       <NavItem>
-        <NavLink className="navlink" href="/SalesOrder">
+        <NavLink className="navlink" href="/dashboard">
           Dashboard
         </NavLink>
       </NavItem>
