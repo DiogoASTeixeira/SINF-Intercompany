@@ -14,26 +14,33 @@ import { Container } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
     root: {
-        width: '90%',
+        width: '100%',
+        '& h3': {
+          color: '#4287f5',
+          'font-size': '30px',
+          'font-weight': '300',
+          'letter-spacing': '9px',
+        }
+
     },
     paper: {
         marginTop: theme.spacing(3),
         width: '75%',
         overflowX: 'auto',
         margin: 'auto',
-        marginBottom: theme.spacing(2)
+        marginBottom: theme.spacing(2),
+        boxShadow: '0 3px 5px 2px rgba(0, 0, 0, .1)',
     },
     table: {
         minWidth: 500,
     },
 
     button: {
-      background: 'lightblue',
+      background: 'rgba(0, 0, 0, .25)',
       borderRadius: 3,
       border: 0,
       color: 'white',
       height: 48,
-      boxShadow: '0 3px 5px 2px rgba(0, 0, 0, .1)',
     },
 }));
 
