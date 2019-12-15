@@ -6,9 +6,7 @@ import {
 } from "react-router-dom";
 import Helmet from "react-helmet";
 import PurchaseOrder from './components/PurchaseOrder';
-import Table from './components/DataTable/NewTable';
-import SalesOrder from './components/SalesOrder';
-import ValidState from './components/ValidState';
+import Dashboard from './components/Dashboard/Dashboard';
 import TopNav from './components/navbar/TopNav';
 import './App.css';
 
@@ -27,18 +25,14 @@ export default class App extends Component {
                     <div>
                         <TopNav />
                         <Switch>
-                            <Route path="/purchaseOrder">
+                            <Route path="/purchaseOrders">
                                 <PurchaseOrder handleSubmit={this.handleSubmit} />
                             </Route>
-                            <Route path="/salesOrder">
-                                <SalesOrder handleSubmit={this.handleSubmit} />
-                            </Route>
-                            <Route path="/validState">
-                                <ValidState />
+                            <Route path="/dashboard">
+                                <Dashboard />
                             </Route>
                             <Route path="/">
-                                {/* TODO DashBoard */}
-                                <Table />
+                                <Dashboard />
                             </Route>
                         </Switch>
                     </div>
@@ -46,23 +40,4 @@ export default class App extends Component {
             </div>
         )
     }
-
-
-    removeCharacter = index => {
-        const { characters } = this.state
-        console.log(this.state);
-        this.setState({
-            characters: characters.filter((character, i) => {
-                return i !== index
-            })
-        })
-    }
-
-    handleSubmit = character => {
-        this.setState({ characters: [...this.state.characters, character] });
-    }
-
-
-
-
 }

@@ -6,18 +6,13 @@ const TopNavLinks = () => {
   return (
     <>
       <NavItem>
-        <NavLink className="navlink" href="/PurchaseOrder">
-          Purchase Order
+        <NavLink className="navlink" href="/salesOrders">
+          Sales Orders
         </NavLink>
       </NavItem>
       <NavItem>
-        <NavLink className="navlink" href="/SalesOrder">
-          Sales Order
-        </NavLink>
-      </NavItem>
-      <NavItem>
-        <NavLink className="navlink" href="/ValidState">
-          Valid State
+        <NavLink className="navlink" href="/dashboard">
+          Dashboard
         </NavLink>
       </NavItem>
     </>
