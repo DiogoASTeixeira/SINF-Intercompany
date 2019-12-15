@@ -11,7 +11,7 @@ export default class PurchaseOrder extends Component {
 
         this.state = {
             productHeadings: ['Name', 'Price (€)', 'Actions'],
-            products: [],
+            products: ['Asda','adasaa','asdafa'],
             orderHeadings: ['Product', 'Status', 'Action'],
             orders: [],
             showDialog: false,

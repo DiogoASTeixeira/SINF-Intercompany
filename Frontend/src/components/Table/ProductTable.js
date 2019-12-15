@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { Container } from '@material-ui/core';
 
+
 const useStyles = makeStyles(theme => ({
     root: {
         width: '90%',
@@ -25,7 +26,17 @@ const useStyles = makeStyles(theme => ({
     table: {
         minWidth: 500,
     },
+
+    button: {
+      background: 'lightblue',
+      borderRadius: 3,
+      border: 0,
+      color: 'white',
+      height: 48,
+      boxShadow: '0 3px 5px 2px rgba(0, 0, 0, .1)',
+    },
 }));
+
 
 export default function ProductTable(props) {
     const classes = useStyles();
@@ -35,9 +46,9 @@ export default function ProductTable(props) {
 
     return (
         <div className={classes.root}>
-            
+
             <Paper className={classes.paper}>
-                
+
             <Container><h3>Product Table</h3></Container>
                 <Table className={classes.table} size="small" aria-label="a dense table">
                     <TableHead>
@@ -56,7 +67,7 @@ export default function ProductTable(props) {
                                 <TableCell align="right">{row.price}</TableCell>
                                 <TableCell align="right">
                                     <Grid item>
-                                        <ButtonGroup>
+                                        <ButtonGroup className={classes.button}>
                                             <Button onClick={handleDetails.bind(this, row.id)}>Details</Button>
                                             <Button onClick={handleOrder.bind(this, row.id)}>Order</Button>
                                         </ButtonGroup>
