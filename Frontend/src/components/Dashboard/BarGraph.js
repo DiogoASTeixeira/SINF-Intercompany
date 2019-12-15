@@ -137,8 +137,6 @@ export default class BarGraph extends Component {
     }
 
     componentDidMount = () => {
-        axios.get(`http://localhost:8000/sinfApi/login`)
-            .then(
                 axios.get(`http://localhost:8000/sinfApi/stats/month-amount-profit`)
                     .then(res => {
                         console.log(res.data);
@@ -174,6 +172,5 @@ export default class BarGraph extends Component {
                         });
                     }
                     )
-            )
     }
 }

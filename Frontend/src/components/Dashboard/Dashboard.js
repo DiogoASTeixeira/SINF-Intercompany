@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import Helmet from "react-helmet";
 import BarGraph from './BarGraph';
+import ProductAmountProfit from './ProductAmountProfit';
 import { Container } from '@material-ui/core';
+import axios from 'axios';
 
 export default class Dashboard extends Component {
     render() {
@@ -11,12 +13,13 @@ export default class Dashboard extends Component {
                     <meta charset="utf-12" />
                     <title>DashBoard - Client</title>
                 </Helmet>
-                <BarGraph
-                    title={'Monthly Profit in Current Year'}
-                />
+                <BarGraph title={'Monthly Profit in Current Year'} />
+                <ProductAmountProfit />
             </Container>
         )
     }
 
-
+    componentWillMount = () => {
+        axios.get(`http://localhost:8000/sinfApi/login`);
+    }
 }

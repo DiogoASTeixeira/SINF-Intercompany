@@ -80,7 +80,7 @@ export default class PurchaseOrder extends Component {
             .then(res => {
                 console.log(res);
             });
-        window.location = "http://localhost:3000/PurchaseOrder"
+        window.location.reload();
     }
 
     async handleDetails(id) {
