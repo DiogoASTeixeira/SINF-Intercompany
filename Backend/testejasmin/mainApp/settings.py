@@ -78,7 +78,7 @@ MIDDLEWARE = [
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000', 'https://localhost:3000'
+    'http://localhost:3000', 'https://localhost:3000', 'http://localhost:3001', 'https://localhost:3001'
 ]
 CORS_ORIGIN_REGEX_WHITELIST = [
     'http://localhost:8000',

@@ -25,7 +25,7 @@ SUPP_SECRET = "0c78ac45-98bd-4036-9cf1-4af89b3dc833"
 SUPP_TOKEN = ""
 SUPP_TENANT = "227418"
 SUPP_ORG = "227418-0001"
-SUPP_PARTY = "0001"
+SUPP_PARTY = "0003"
 
 CUST_NAME = "W-SINF"
 CUST_CLI_ID = "SINF2COMPANIES"
@@ -33,7 +33,7 @@ CUST_SECRET = "6e95f18f-4ae8-485e-a3e0-ae301a86ea43"
 CUST_TOKEN = ""
 CUST_TENANT = "224989"
 CUST_ORG = "224989-0001"
-CUST_PARTY = "0003"
+CUST_PARTY = "0001"
 
 class IsCustomer(BasePermission):
 
@@ -49,7 +49,7 @@ class IsSupplier(BasePermission):
         return False
 
 class Request(APIView):
-    # permission_classes = (IsAuthenticated,)
+    #permission_classes = (IsAuthenticated,)
 
     def post(self, request, id_prod):
         time_int = int(round(time.time()))
@@ -87,7 +87,7 @@ class Request(APIView):
         return HttpResponse(status=200)
 
 class RejectRequest(APIView):
-    # permission_classes = (IsAuthenticated,)
+    #permission_classes = (IsAuthenticated,)
 
     def patch(self, request, id_req):
         req = OrderRequest.objects.get(id=id_req)
@@ -100,7 +100,7 @@ class RejectRequest(APIView):
         return HttpResponse("Rejected order request with ID: " + id_req, status=200)
 
 class AcceptRequest(APIView):
-    # permission_classes = (IsAuthenticated,)
+    #permission_classes = (IsAuthenticated,)
 
     def patch(self, request, id_req):
 
@@ -109,9 +109,10 @@ class AcceptRequest(APIView):
             return HttpResponse("Request not pending with ID: " + id_req, status=400)
 
         req.status = OrderRequestState.ACCEPTED.value
-        req.save()
 
         prod = ProductDetails.get(self,request, req.product_id).data
+
+        print(prod)
 
         response = requests.post( "https://" + JASMIN_URL + "/" + CUST_TENANT + "/" + CUST_ORG + "/purchasesCore/purchasesItems",
                                  headers={
@@ -125,6 +126,8 @@ class AcceptRequest(APIView):
                 "image":  prod['image'],
             }, )
 
+        print(response.json())
+
         if(response.status_code == 201):
             id_purchase = response.text[1:len(response.text) - 1]
             product_detail = PurchaseItem.getId(id_purchase)
@@ -136,10 +139,10 @@ class AcceptRequest(APIView):
             product_detail = PurchaseItem.getId(id_purchase)
 
 
-        today = datetime.now();
+        today = datetime.now()
 
         dtoday = today.strftime("%Y-%m-%dT%H:%M:%S")
-        serie = "TESTE"#today.strftime("%Y")
+        serie = "2019"
 
         response1 = requests.post(
             "https://" + JASMIN_URL + "/" + CUST_TENANT + "/" + CUST_ORG + "/invoiceReceipt/invoices",
@@ -236,7 +239,7 @@ class AcceptRequest(APIView):
         return HttpResponse("Accepted order request with ID: " + id_req, status=200)
 
 class ProductList(APIView):
-     # permission_classes = (IsAuthenticated,)
+    #permission_classes = (IsAuthenticated,)
 
     def get(self, request):
         response = requests.get(
@@ -255,14 +258,15 @@ class ProductList(APIView):
             temp_dict = {
                 'name': item['itemKey'],
                 'price': item['priceListLines'][0]['priceAmount']['amount'],
-                'id': item['priceListLines'][0]['salesItemId']
+                'id': item['priceListLines'][0]['salesItemId'],
+                'description': item['description']
             }
             dict.append(temp_dict)
 
         return Response(dict)
 
 class PurchaseItem(APIView):
-     # permission_classes = (IsAuthenticated,)
+    #permission_classes = (IsAuthenticated,)
 
     def getId(id_pit):
         response = requests.get(
@@ -279,7 +283,7 @@ class PurchaseItem(APIView):
         return dict
 
 class ProductDetails(APIView):
-     # permission_classes = (IsAuthenticated,)
+    #permission_classes = (IsAuthenticated,)
 
     def get(self, request, id_prod):
         response = requests.get(
@@ -304,7 +308,7 @@ class ProductDetails(APIView):
 
 
 class InvoiceDetails(APIView):
-     # permission_classes = (IsAuthenticated,)
+    #permission_classes = (IsAuthenticated,)
 
     def get(self, request, id_req):
         global invoice_id
@@ -317,14 +321,29 @@ class InvoiceDetails(APIView):
                 'Authorization': SUPP_TOKEN,
                 'Content-Type': 'application/json'
             })
-        data = json.loads(response.text)
 
-        response = data
+        data = response.json()
 
-        return HttpResponse(json.dumps(response), content_type="application/json")
+        dict = {
+            'grossValue': data['grossValue']['amount'],
+            'discount': data['discount'],
+            'taxTotal': data['taxTotal']['amount'],
+            'totalValue': data['totalLiability']['amount'],
+            'discountValue': data['discountInValueAmount']['amount'],
+            'seller': data['companyDescription'],
+            'deliveryMethod': data['deliveryTermDescription'],
+            'paymentMethod': data['paymentMethodDescription'],
+            'buyer': data['buyerCustomerPartyDescription'],
+            'priceList': data['priceList'],
+            'productDescription': data['documentLines'][0]['description']
+        }
+
+
+        return Response(dict)
 
 class UserGroup(APIView):
-     # permission_classes = (IsAuthenticated,)
+    #permission_classes = (IsAuthenticated,)
+
     def get(self, request):
         response = {}
         response['group'] = request.user.groups.first().name
@@ -340,7 +359,7 @@ class UserGroup(APIView):
 
 
 class Auth(APIView):
-     # permission_classes = (IsAuthenticated,)
+    #permission_classes = (IsAuthenticated,)
 
     def get(self, request):
         response = requests.post("https://identity.primaverabss.com/connect/token",
