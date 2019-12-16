@@ -9,6 +9,7 @@
     "apexcharts": "^3.11.0",
     "axios": "^0.19.0",
     "clsx": "^1.0.4",
+    "concurrently": "^5.0.1",
     "eslint-cli": "^1.1.1",
     "material-table": "^1.54.2",
     "namor": "^2.0.2",
@@ -31,7 +32,10 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "run": "http-server -a localhost -p 8000"
+    "server": "python ../Backend/testejasmin/manage.py runserver",
+    "frontend": "concurrently --kill-others \"npm start\" \"cd ../Frontend-Supplier && npm start\"",
+    "run": "http-server -a localhost -p 8000",
+    "dev": "concurrently --kill-others \"npm run frontend\" \"npm run server\""
   },
   "eslintConfig": {
     "extends": "react-app"
