@@ -11,7 +11,7 @@ export default class PurchaseOrder extends Component {
 
         this.state = {
             productHeadings: ['Name', 'Price (€)', 'Actions'],
-            products: ['Asda','adasaa','asdafa'],
+            products: [],
             orderHeadings: ['Product', 'Status', 'Action'],
             orders: [],
             showDialog: false,
@@ -57,26 +57,26 @@ export default class PurchaseOrder extends Component {
         )
     };
 
-
+    async componentWillMount() {
+        await axios.get(`http://localhost:8000/sinfApi/login`)
+            .then(console.log('Logged in'));
+    }
 
     async componentDidMount() {
-        axios.get(`http://localhost:8000/sinfApi/login`)
-            .then(
-                axios.get(`http://localhost:8000/sinfApi/supplier/products`)
-                    .then(res => {
-                        const products = res.data;
-                        this.setState({ products: products });
-                    }),
-                axios.get(`http://localhost:8000/sinfApi/client/order-requests`)
-                    .then(res => {
-                        const orders = res.data;
-                        this.setState({ orders: orders });
-                    })
-            );
+        await axios.get(`http://localhost:8000/sinfApi/supplier/products`)
+            .then(res => {
+                const products = res.data;
+                this.setState({ products: products });
+            });
+        await axios.get(`http://localhost:8000/sinfApi/client/order-requests`)
+            .then(res => {
+                const orders = res.data;
+                this.setState({ orders: orders });
+            });
     }
 
     async handleOrder(id, e) {
-        axios.post(`http://localhost:8000/sinfApi/supplier/products/` + id + '/order-request')
+        await axios.post(`http://localhost:8000/sinfApi/supplier/products/` + id + '/order-request')
             .then(res => {
                 console.log(res);
             });
@@ -85,16 +85,16 @@ export default class PurchaseOrder extends Component {
 
     async handleDetails(id) {
 
-        axios.get(`http://localhost:8000/sinfApi/supplier/products/` + id)
+        await axios.get(`http://localhost:8000/sinfApi/supplier/products/` + id)
             .then(res => {
                 this.setState({ showDialog: true, dialogContent: res.data });
             });
     }
 
     async handleOrderCancel(id) {
-        axios.delete("http://localhost:8000/sinfApi/client/" + id + "/order-request").then()
+        await axios.delete("http://localhost:8000/sinfApi/client/" + id + "/order-request").then()
 
-        window.location = "http://localhost:3000/PurchaseOrder"
+        window.location.reload();
     }
 
     handleDialogClose() {

@@ -66,41 +66,42 @@ export default class SalesOrder extends Component {
             })
     }
 
+    async componentWillMount() {
+        await axios.get(`http://localhost:8000/sinfApi/login`);
+    }
+
     async componentDidMount() {
-        axios.get(`http://localhost:8000/sinfApi/login`)
-            .then(res =>
-                axios.get(`http://localhost:8000/sinfApi/client/order-requests`)
-                    .then(res => {
-                        this.setState(
-                            {
-                                pendings: res.data.filter(p => p.status === 'pending'),
-                                accepted: res.data.filter(p => p.status === 'accepted')
-                            }
-                        );
-                    })
-            );
+        await axios.get(`http://localhost:8000/sinfApi/client/order-requests`)
+            .then(res => {
+                this.setState(
+                    {
+                        pendings: res.data.filter(p => p.status === 'pending'),
+                        accepted: res.data.filter(p => p.status === 'accepted')
+                    }
+                );
+            });
     }
 
     async handleReject(id) {
-        axios.patch(`http://localhost:8000/sinfApi/client/order-requests/` + id + '/reject')
+        await axios.patch(`http://localhost:8000/sinfApi/client/order-requests/` + id + '/reject')
             .then(res => {
                 console.log(res.data);
             });
     }
 
     async handleAccept(id) {
-
-        axios.patch(`http://localhost:8000/sinfApi/client/order-requests/` + id + `/accept`)
+        await axios.patch(`http://localhost:8000/sinfApi/client/order-requests/` + id + `/accept`)
             .then(res => {
                 console.log(res.data);
             });
     }
 
     async handleInvoice(id) {
-        axios.get(`http://localhost:8000/sinfApi/supplier/invoice/` + id)
-            .then(res =>
-                console.log(res.data)
-                )
+        console.log(id);
+        // await axios.get(`http://localhost:8000/sinfApi/supplier/invoice/` + id)
+        //     .then(res =>
+        //         console.log(res.data)
+        //     )
     }
 
     handleDialogClose() {
