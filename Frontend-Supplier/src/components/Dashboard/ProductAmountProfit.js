@@ -22,17 +22,16 @@ export default class ProductAmountProfit extends Component {
         )
     }
 
-    componentDidMount = () => {
+    componentDidMount = async () => {
         axios.get(`http://localhost:8000/sinfApi/stats/product-amount-profit`)
             .then(res => {
                 let rows = [];
 
-                for(let k in res.data)
-                {
+                for (let k in res.data) {
                     let obj = {
                         name: k,
                         units: res.data[k].units,
-                        profit: res.data[k].profit
+                        profit: (Math.round(res.data[k].profit * 100) / 100).toFixed(2)
                     };
                     rows.push(obj);
                 }

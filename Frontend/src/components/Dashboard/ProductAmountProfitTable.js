@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function ProductAmountProftTable(props) {
+export default function ProductAmountProfitTable(props) {
     const classes = useStyles();
 
     const { headings, rows } = props;

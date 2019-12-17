@@ -22,7 +22,7 @@ export default class App extends Component {
                     <title>Supplier Intercompany</title>
                 </Helmet>
                 <Router>
-                    <div>
+                    <div style={{'minWidth': '1000px'}}>
                         <TopNav />
                         <Switch>
                             <Route path="/salesOrders">
