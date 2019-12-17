@@ -62,7 +62,7 @@ export default function ProductTable(props) {
                         <TableRow>
                             <TableCell>{headings[0]}</TableCell>
                             <TableCell align="right">{headings[1]}</TableCell>
-                            <TableCell align="right">{headings[2]}</TableCell>
+                            <TableCell align="center">{headings[2]}</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -71,8 +71,8 @@ export default function ProductTable(props) {
                                 <TableCell component="th" scope="row">
                                     {row.name}
                                 </TableCell>
-                                <TableCell align="right">{row.price}</TableCell>
-                                <TableCell align="right">
+                                <TableCell align="right">{(Math.round(row.price * 100) / 100).toFixed(2)}</TableCell>
+                                <TableCell align="center">
                                     <Grid item>
                                         <ButtonGroup className={classes.button}>
                                             <Button onClick={handleDetails.bind(this, row.id)}>Details</Button>

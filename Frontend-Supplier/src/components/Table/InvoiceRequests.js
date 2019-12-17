@@ -60,7 +60,7 @@ export default function InvoiceRequests(props) {
                         <TableRow>
                             <TableCell>{headings[0]}</TableCell>
                             <TableCell align="right">{headings[1]}</TableCell>
-                            <TableCell align="right">{headings[2]}</TableCell>
+                            <TableCell align="center">{headings[2]}</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -69,8 +69,8 @@ export default function InvoiceRequests(props) {
                                 <TableCell component="th" scope="row">
                                     {row.name}
                                 </TableCell>
-                                <TableCell align="right">{row.status}</TableCell>
-                                <TableCell align="right">
+                                <TableCell align="right">{timeConverter(row.time)}</TableCell>
+                                <TableCell align="center">
                                     <Grid item>
                                         <ButtonGroup>
                                             <Button onClick={handleInvoice.bind(this, row.id)}>Invoice</Button>
@@ -84,4 +84,16 @@ export default function InvoiceRequests(props) {
             </Paper>
         </div>
     );
+}
+
+function timeConverter(UNIX_timestamp) {
+    var a = new Date(UNIX_timestamp * 1000);
+    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var year = a.getFullYear();
+    var month = months[a.getMonth()];
+    var date = a.getDate();
+    var hour = a.getHours();
+    var min = ('0'+a.getMinutes()).slice(-2);
+    var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min;
+    return time;
 }

@@ -12,7 +12,7 @@ export default class SalesOrder extends Component {
         this.state = {
             pendingHeadings: ['Name', 'Date', 'Actions'],
             pendings: [],
-            acceptedHeadings: ['Product', 'Status', 'Action'],
+            acceptedHeadings: ['Product', 'Date', 'Action'],
             accepted: [],
             showDialog: false,
             dialogContent: []

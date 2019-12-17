@@ -12,7 +12,7 @@ export default class PurchaseOrder extends Component {
         this.state = {
             productHeadings: ['Name', 'Price (€)', 'Actions'],
             products: [],
-            orderHeadings: ['Product', 'Status', 'Action'],
+            orderHeadings: ['Product', 'Date', 'Status', 'Action'],
             orders: [],
             showDialog: false,
             dialogContent: []

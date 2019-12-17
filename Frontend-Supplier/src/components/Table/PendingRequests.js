@@ -63,7 +63,7 @@ export default function PendingRequests(props) {
                         <TableRow>
                             <TableCell>{headings[0]}</TableCell>
                             <TableCell align="right">{headings[1]}</TableCell>
-                            <TableCell align="right">{headings[2]}</TableCell>
+                            <TableCell align="center">{headings[2]}</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -73,7 +73,7 @@ export default function PendingRequests(props) {
                                     {row.name}
                                 </TableCell>
                                 <TableCell align="right">{row.time}</TableCell>
-                                <TableCell align="right">
+                                <TableCell align="center">
                                     <Grid item>
                                         <ButtonGroup>
                                             <Button onClick={handleAccept.bind(this, row.id)}>Accept</Button>
@@ -98,7 +98,7 @@ function timeConverter(UNIX_timestamp) {
     var month = months[a.getMonth()];
     var date = a.getDate();
     var hour = a.getHours();
-    var min = a.getMinutes();
+    var min = ('0'+a.getMinutes()).slice(-2);
     var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min;
     return time;
 }
