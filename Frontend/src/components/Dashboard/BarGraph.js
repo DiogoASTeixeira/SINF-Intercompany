@@ -7,8 +7,6 @@ export default class BarGraph extends Component {
     constructor(props) {
         super(props);
 
-        const { title } = this.props;
-
         this.state = {
             options: {
                 dataLabels: {
@@ -19,7 +17,7 @@ export default class BarGraph extends Component {
                     width: [1, 1, 4]
                 },
                 title: {
-                    text: title,
+                    text: '',
                     align: 'left',
                     offsetX: 110
                 },
@@ -161,7 +159,7 @@ export default class BarGraph extends Component {
                                 name: 'Profit',
                                 type: 'column',
                                 data: profitData
-                            }, 
+                            },
                             // {
                             //     name: 'Revenue',
                             //     type: 'line',

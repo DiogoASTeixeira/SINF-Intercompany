@@ -13,6 +13,7 @@ export default class Dashboard extends Component {
                     <meta charset="utf-12" />
                     <title>DashBoard - Client</title>
                 </Helmet>
+                <h3>Monthly Profit in Current Year</h3>
                 <BarGraph title={'Monthly Profit in Current Year'} />
                 <ProductAmountProfit />
             </Container>
