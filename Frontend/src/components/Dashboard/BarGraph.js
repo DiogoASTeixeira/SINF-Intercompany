@@ -65,7 +65,7 @@ export default class BarGraph extends Component {
                             }
                         },
                         title: {
-                            text: "Profit",
+                            text: "Spending",
                             style: {
                                 color: '#00E396',
                             }
@@ -112,7 +112,7 @@ export default class BarGraph extends Component {
                 type: 'column',
                 data: []
             }, {
-                name: 'Profit',
+                name: 'Spending',
                 type: 'column',
                 data: []
             },
@@ -139,11 +139,11 @@ export default class BarGraph extends Component {
                     .then(res => {
                         let months = [];
                         let unitsData = [];
-                        let profitData = [];
+                        let spendingData = [];
                         for (let k in res.data) {
                             months.push(k);
                             unitsData.push(res.data[k].units);
-                            profitData.push(res.data[k].profit);
+                            spendingData.push(res.data[k].profit);
                         }
                         this.setState({
                             options: {
@@ -156,14 +156,14 @@ export default class BarGraph extends Component {
                                 type: 'column',
                                 data: unitsData
                             }, {
-                                name: 'Profit',
+                                name: 'Spending',
                                 type: 'column',
-                                data: profitData
+                                data: spendingData
                             },
                             // {
                             //     name: 'Revenue',
                             //     type: 'line',
-                            //     data: profitData
+                            //     data: spendingData
                             // }
                         ]
                         });

@@ -1,10 +1,5 @@
 import React, { Component } from "react";
-import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -33,7 +28,6 @@ export default class PopupWindow extends Component {
         let { content } = this.props;
         console.log(content);
         return (
-            <div>
                 <Dialog
                     open={this.state.open}
                     TransitionComponent={Transition}
@@ -42,26 +36,8 @@ export default class PopupWindow extends Component {
                     aria-labelledby="alert-dialog-slide-title"
                     aria-describedby="alert-dialog-slide-description"
                 >
-                    <DialogTitle id="alert-dialog-slide-title">
-                        {content.name}
-                    </DialogTitle>
-                    <DialogContent>
-                        <DialogContentText>Price:</DialogContentText>
-                        <DialogContentText id="alert-dialog-slide-description" className="col">
-                            {content.price}€
-                        </DialogContentText>
-                        <DialogContentText>Description:</DialogContentText>
-                        <DialogContentText id="alert-dialog-slide-description">
-                            {content.description}
-                        </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={this.handleClose} color="primary">
-                            Close
-                            </Button>
-                    </DialogActions>
+                    {content}
                 </Dialog>
-            </div>
         );
     }
 }

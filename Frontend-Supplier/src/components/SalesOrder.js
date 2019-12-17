@@ -4,6 +4,7 @@ import PendingRequests from './Table/PendingRequests';
 import PopupWindow from './Popup/PopupWindow';
 import InvoiceRequests from './Table/InvoiceRequests';
 import axios from 'axios';
+import Invoice from './Table/Invoice';
 
 export default class SalesOrder extends Component {
     constructor() {
@@ -15,7 +16,8 @@ export default class SalesOrder extends Component {
             acceptedHeadings: ['Product', 'Date', 'Action'],
             accepted: [],
             showDialog: false,
-            dialogContent: []
+            dialogContent: [],
+            invoiceContent: null
         };
 
         this.handleDialogClose = this.handleDialogClose.bind(this);
@@ -25,7 +27,7 @@ export default class SalesOrder extends Component {
 
     }
     render() {
-        const { pendingHeadings, pendings, acceptedHeadings, accepted } = this.state;
+        const { pendingHeadings, pendings, acceptedHeadings, accepted, invoiceContent, showDialog } = this.state;
 
         return (
             <Fragment>
@@ -49,8 +51,8 @@ export default class SalesOrder extends Component {
 
                 {this.state.showDialog && (
                     <PopupWindow
-                        content={this.state.dialogContent}
-                        open={this.state.showDialog}
+                        content={invoiceContent}
+                        open={showDialog}
                         onClickClose={this.handleDialogClose}
                     />
                 )}
@@ -98,10 +100,19 @@ export default class SalesOrder extends Component {
 
     async handleInvoice(id) {
         console.log(id);
-        // await axios.get(`http://localhost:8000/sinfApi/supplier/invoice/` + id)
-        //     .then(res =>
-        //         console.log(res.data)
-        //     )
+        // await axios.get(`http://localhost:8000/sinfApi/supplier/products/` + id)
+        // .then(res => {
+        //     this.setState({ showDialog: true, dialogContent: res.data });
+        // });
+
+         await axios.get(`http://localhost:8000/sinfApi/supplier/invoice/` + id)
+             .then(res =>
+                 this.setState({
+                     invoiceContent: <Invoice content={res.data} />,
+                     showDialog: true
+                 })
+                 
+             )
     }
 
     handleDialogClose() {

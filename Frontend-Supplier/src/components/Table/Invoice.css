@@ -1,0 +1,51 @@
+.align-right {
+    justify-content: right;
+    display: grid;
+}
+
+.custom-card {
+    width: 160px;
+    margin-bottom: 0.3rem !important;
+    padding: 1rem;
+    background-color: #1b1c1d !important;
+}
+
+.custom-card-gray {
+    width: 240px;
+    margin-bottom: 0.3rem !important;
+    padding: 1rem;
+    background-color: rgb(238, 238, 238) !important;
+}
+
+.custom-table-spacing {
+    margin-top: 2rem;
+}
+
+.custom-table {
+    width: 50%;
+    display: grid;
+}
+
+th {
+    align-content: right;
+}
+
+.blue-font {
+    color: #00A4D3 !important;
+}
+
+.white-font {
+    color: #ffffff !important;
+}
+
+.custom-title {
+    font-size: 2rem;
+}
+
+.align-title {
+    padding-top: 1rem;
+}
+
+.normal-font {
+    font-weight: normal !important;
+}

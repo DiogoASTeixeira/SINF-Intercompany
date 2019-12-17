@@ -112,8 +112,6 @@ class AcceptRequest(APIView):
 
         prod = ProductDetails.get(self,request, req.product_id).data
 
-        print(prod)
-
         response = requests.post( "https://" + JASMIN_URL + "/" + CUST_TENANT + "/" + CUST_ORG + "/purchasesCore/purchasesItems",
                                  headers={
                                      'Authorization': CUST_TOKEN,
@@ -126,8 +124,6 @@ class AcceptRequest(APIView):
                 "image":  prod['image'],
             }, )
 
-        print(response.json())
-
         if(response.status_code == 201):
             id_purchase = response.text[1:len(response.text) - 1]
             product_detail = PurchaseItem.getId(id_purchase)
@@ -139,7 +135,7 @@ class AcceptRequest(APIView):
             product_detail = PurchaseItem.getId(id_purchase)
 
 
-        today = datetime.now()
+        today = datetime.now();
 
         dtoday = today.strftime("%Y-%m-%dT%H:%M:%S")
         serie = "2019"
@@ -252,7 +248,7 @@ class ProductList(APIView):
         dict = []
 
         data = response.json()
-
+        
         for item in data:
             print(item['itemKey'])
             temp_dict = {
@@ -262,7 +258,7 @@ class ProductList(APIView):
                 'description': item['description']
             }
             dict.append(temp_dict)
-
+        
         return Response(dict)
 
 class PurchaseItem(APIView):
@@ -324,6 +320,9 @@ class InvoiceDetails(APIView):
 
         data = response.json()
 
+        date = data['loadingDateTime']
+        date = date[0:9]
+
         dict = {
             'grossValue': data['grossValue']['amount'],
             'discount': data['discount'],
@@ -335,7 +334,11 @@ class InvoiceDetails(APIView):
             'paymentMethod': data['paymentMethodDescription'],
             'buyer': data['buyerCustomerPartyDescription'],
             'priceList': data['priceList'],
-            'productDescription': data['documentLines'][0]['description']
+            'productDescription': data['documentLines'][0]['description'],
+            'date': date,
+            'keyName': data['naturalKey'],
+            'nifClient': data['buyerCustomerPartyTaxId']
+
         }
 
 
@@ -459,7 +462,7 @@ class ProductAmountProfit(APIView):
             response[productName]['units'] = 0
             response[productName]['profit'] = 0
             for request in orderRequestList.data:
-                if(request['name'] == productName):
+                if(request['name'] == productName) and (request['status'] == OrderRequestState.ACCEPTED.value):
                     response[productName]['units'] += 1
                     response[productName]['profit'] += request['price']
 
@@ -479,7 +482,7 @@ class MonthAmountProfit(APIView):
 
             for request in orderRequestList.data:
                 requestDate = datetime.fromtimestamp(request['time'])
-                if(requestDate.year == curentYear) and (requestDate.month == i):
+                if(requestDate.year == curentYear) and (requestDate.month == i) and (request['status'] == OrderRequestState.ACCEPTED.value):
                     response[month]['units'] += 1
                     response[month]['profit'] += request['price']
 

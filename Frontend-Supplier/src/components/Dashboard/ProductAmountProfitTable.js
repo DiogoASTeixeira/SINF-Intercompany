@@ -29,7 +29,7 @@ export default function ProductAmountProftTable(props) {
 
     const { headings, rows } = props;
 
-    let sortRows = rows.sort((a, b) => { return b.units - a.units; });
+    let sortRows = rows.sort((a, b) => { return b.profit - a.profit; });
 
 
     return (
@@ -37,7 +37,7 @@ export default function ProductAmountProftTable(props) {
 
             <Paper className={classes.paper}>
 
-                <Container><h3>Most Purchased Products</h3></Container>
+                <Container><h3>Most Profitable Products</h3></Container>
                 <Table className={classes.table} size="small" aria-label="a dense table">
                     <TableHead>
                         <TableRow>

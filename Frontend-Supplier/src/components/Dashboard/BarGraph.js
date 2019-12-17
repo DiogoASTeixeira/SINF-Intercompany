@@ -118,12 +118,12 @@ export default class BarGraph extends Component {
                 type: 'column',
                 data: []
             },
-            // {
-            //     name: 'Revenue',
-            //     type: 'line',
-            //     data: []
-            // }
-        ],
+                // {
+                //     name: 'Revenue',
+                //     type: 'line',
+                //     data: []
+                // }
+            ],
         }
     }
 
@@ -136,40 +136,40 @@ export default class BarGraph extends Component {
         );
     }
 
-    componentDidMount = () => {
-                axios.get(`http://localhost:8000/sinfApi/stats/month-amount-profit`)
-                    .then(res => {
-                        let months = [];
-                        let unitsData = [];
-                        let profitData = [];
-                        for (let k in res.data) {
-                            months.push(k);
-                            unitsData.push(res.data[k].units);
-                            profitData.push(res.data[k].profit);
+    componentDidMount = async () => {
+        axios.get(`http://localhost:8000/sinfApi/stats/month-amount-profit`)
+            .then(res => {
+                let months = [];
+                let unitsData = [];
+                let profitData = [];
+                for (let k in res.data) {
+                    months.push(k);
+                    unitsData.push(res.data[k].units);
+                    profitData.push(res.data[k].profit);
+                }
+                this.setState({
+                    options: {
+                        xaxis: {
+                            categories: months
                         }
-                        this.setState({
-                            options: {
-                                xaxis: {
-                                    categories: months
-                                }
-                            },
-                            series: [{
-                                name: 'Units Sold',
-                                type: 'column',
-                                data: unitsData
-                            }, {
-                                name: 'Profit',
-                                type: 'column',
-                                data: profitData
-                            }, 
-                            // {
-                            //     name: 'Revenue',
-                            //     type: 'line',
-                            //     data: profitData
-                            // }
-                        ]
-                        });
-                    }
-                    )
+                    },
+                    series: [{
+                        name: 'Units Sold',
+                        type: 'column',
+                        data: unitsData
+                    }, {
+                        name: 'Profit',
+                        type: 'column',
+                        data: profitData
+                    },
+                        // {
+                        //     name: 'Revenue',
+                        //     type: 'line',
+                        //     data: profitData
+                        // }
+                    ]
+                });
+            }
+            )
     }
 }

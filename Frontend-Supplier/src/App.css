@@ -6,7 +6,6 @@
   color: black !important;
 }
 
-
 .nav-item {
   list-style: none;
   margin-left: 20px;
@@ -22,11 +21,31 @@
   list-style: none;
 }
 
-#navbar{
+#navbar {
   display: flex;
 }
 
-#logoLink{
+#logoLink {
   margin-left: 25px;
   margin-top: 15px;
+}
+
+#income-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 10px;
+  text-align: center;
+  border: 0.5em dotted   #ff9900;
+  border-radius: 2em;
+}
+
+#income-header {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+#income-value {
+  grid-column: 1;
+  grid-row: 2;
+  font-size: 5em;
 }

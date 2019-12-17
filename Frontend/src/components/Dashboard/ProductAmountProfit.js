@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import ProductAmountProftTable from './ProductAmountProfitTable';
+import ProductAmountProfitTable from './ProductAmountProfitTable';
 import axios from 'axios';
 
 export default class ProductAmountProfit extends Component {
     constructor() {
         super();
         this.state = {
-            headings: ['Name', 'Units', 'Profit'],
+            headings: ['Name', 'Units', 'Spendings (€)'],
             rows: []
         }
     }
@@ -15,7 +15,7 @@ export default class ProductAmountProfit extends Component {
         const { headings, rows } = this.state;
 
         return (
-            <ProductAmountProftTable
+            <ProductAmountProfitTable
                 headings={headings}
                 rows={rows}
             />
@@ -32,7 +32,7 @@ export default class ProductAmountProfit extends Component {
                     let obj = {
                         name: k,
                         units: res.data[k].units,
-                        profit: res.data[k].profit
+                        profit: (Math.round(res.data[k].profit * 100) / 100).toFixed(2)
                     };
                     rows.push(obj);
                 }
