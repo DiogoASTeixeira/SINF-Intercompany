@@ -15,7 +15,8 @@ export default class Dashboard extends Component {
                     <title>DashBoard - Supplier</title>
                 </Helmet>
                 <TotalIncome/>
-                <BarGraph title={'Monthly Orders in Current Year'} />
+                <h3>Monthly Orders in Current Year</h3>
+                <BarGraph title={''} />
                 <ProductAmountProfit />
             </Container>
         )

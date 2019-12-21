@@ -10,7 +10,7 @@ export default class PurchaseOrder extends Component {
         super();
 
         this.state = {
-            productHeadings: ['Name', 'Price (€)', 'Actions'],
+            productHeadings: ['Name', 'Price', 'Actions'],
             products: [],
             orderHeadings: ['Product', 'Date', 'Status', 'Action'],
             orders: [],

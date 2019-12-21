@@ -71,7 +71,7 @@ export default function ProductTable(props) {
                                 <TableCell component="th" scope="row">
                                     {row.name}
                                 </TableCell>
-                                <TableCell align="right">{(Math.round(row.price * 100) / 100).toFixed(2)}</TableCell>
+                                <TableCell align="right">{(Math.round(row.price * 100) / 100).toFixed(2)} €</TableCell>
                                 <TableCell align="center">
                                     <Grid item>
                                         <ButtonGroup className={classes.button}>

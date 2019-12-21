@@ -55,7 +55,7 @@ export default function ProductAmountProftTable(props) {
                                     {row.name}
                                 </TableCell>
                                 <TableCell align="right">{row.units}</TableCell>
-                                <TableCell align="right">{row.profit}</TableCell>
+                                <TableCell align="right">{row.profit} €</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
